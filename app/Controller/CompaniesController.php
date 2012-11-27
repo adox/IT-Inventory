@@ -13,10 +13,10 @@ class CompaniesController extends AppController {
         if ($this->request->is('post')) {
             $this->Company->create();
             if ($this->Company->save($this->request->data)) {
-                //$this->Session->setFlash('Company saved.');
+                $this->Session->setFlash('Company saved.');
                 $this->redirect(array('action' => 'index'));
             } else {
-                //$this->Session->setFlash('Unable to add company.');
+                $this->Session->setFlash('Unable to add company.');
             }
         }
     }
@@ -27,13 +27,19 @@ class CompaniesController extends AppController {
             $this->request->data = $this->Company->read();
         } else {
             if ($this->Company->save($this->request->data)) {
-                $this->Session->setFlash('Company has been updated.');
+                $this->Session->setFlash('Company has been updated');
                 $this->redirect(array('action' => 'index'));
-                                
             } else {
-                $this->Session->setFlash('Unable to update Company.');
+                $this->Session->setFlash('Unable to update Company');
             }
         }
+    }
+
+    public function select($id = null) {
+        $this->Company->id = $id;
+        $this->Session->write("company_id", $id);
+        $this->Session->setFlash('Selected Company id: ' . $this->Session->read("company_id"));
+        $this->redirect(array('action' => 'index'));
     }
 
 }
